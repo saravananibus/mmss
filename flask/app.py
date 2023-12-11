@@ -1,4 +1,3 @@
-from flask
 import pymysql
 
 app = Flask(__name__)
