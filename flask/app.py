@@ -1,6 +1,6 @@
 import pymysql
 
-app = Flask(__name__)
+app = flask(__name__)
 
 # Replace these with your database credentials
 DB_HOST = 'mydbinstance.ciklgdejnsgr.ap-southeast-1.rds.amazonaws.com'
