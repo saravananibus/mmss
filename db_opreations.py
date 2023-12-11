@@ -19,7 +19,7 @@ def connect_to_rds():
 
 def insert_mmss(connection, username, dob):
     cursor = connection.cursor()
-    insert_query = "INSERT INTO user_data (username, dob) VALUES (%s, %s)"
+    insert_query = "INSERT INTO mmss (username, dob) VALUES (%s, %s)"
     data = (username, dob)
 
     try:
