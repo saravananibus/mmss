@@ -33,7 +33,7 @@ def insert_mmss(connection, username, dob):
 
 def retrieve_mmss(connection):
     cursor = connection.cursor()
-    select_query = "SELECT * FROM user_data"
+    select_query = "SELECT * FROM mmss"
 
     try:
         cursor.execute(select_query)
