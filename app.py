@@ -5,7 +5,7 @@ import pymysql
 app = Flask(__name__)
 
 # Replace these with your database credentials
-DB_HOST = 'mydbinstance.ap-southeast-1.rds.amazonaws.com
+DB_HOST = 'mydbinstance.ap-southeast-1.rds.amazonaws.com'
 DB_USER = 'admin'
 DB_PASSWORD = 'admin123'
 DB_NAME = "mydbinstance"
