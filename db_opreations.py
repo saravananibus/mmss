@@ -17,7 +17,7 @@ def connect_to_rds():
         print(f"Error: {e}")
         return None
 
-def insert_user_data(connection, username, dob):
+def insert_mmss(connection, username, dob):
     cursor = connection.cursor()
     insert_query = "INSERT INTO user_data (username, dob) VALUES (%s, %s)"
     data = (username, dob)
@@ -31,7 +31,7 @@ def insert_user_data(connection, username, dob):
     finally:
         cursor.close()
 
-def retrieve_user_data(connection):
+def retrieve_mmss(connection):
     cursor = connection.cursor()
     select_query = "SELECT * FROM user_data"
 
