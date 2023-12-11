@@ -1,4 +1,4 @@
-mport mysql.connector
+import mysql.connector
 
 def connect_to_rds():
     # Replace these values with your RDS details
