@@ -1,5 +1,4 @@
-
-from flask , render_template, request
+from flask
 import pymysql
 
 app = Flask(__name__)
