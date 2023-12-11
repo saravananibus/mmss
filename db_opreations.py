@@ -53,10 +53,10 @@ def main():
         dob = "1990-01-01"
 
         # Insert user data
-        insert_user_data(connection, username, dob)
+        insert_mmss(connection, username, dob)
 
         # Retrieve and print user data
-        retrieve_user_data(connection)
+        retrieve_mmss(connection)
 
         # Close the connection
         connection.close()
