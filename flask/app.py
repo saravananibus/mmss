@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import pymysql
 import pymysql
 
-app = flask(__name__)
+app = flask(app.py)
 
 # Replace these with your database credentials
 DB_HOST = 'mydbinstance.ciklgdejnsgr.ap-southeast-1.rds.amazonaws.com'
