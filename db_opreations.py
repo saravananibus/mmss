@@ -61,5 +61,5 @@ def main():
         # Close the connection
         connection.close()
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
