@@ -3,10 +3,10 @@ import mysql.connector
 def connect_to_rds():
     # Replace these values with your RDS details
     db_config = {
-        'host': 'mydbinstance.ciklgdejnsgr.ap-southeast-1.rds.amazonaws.com'
-        'user': 'admin'
-        'password': 'admin123'
-        'database': 'mydbinstance'
+        'host':'mydbinstance.ciklgdejnsgr.ap-southeast-1.rds.amazonaws.com'
+        'user':'admin'
+        'password':'admin123'
+        'database':'mydbinstance'
     }
 
     try:
