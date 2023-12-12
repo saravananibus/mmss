@@ -1,15 +1,21 @@
-<!-- view.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>View User Data</title>
 </head>
 <body>
-    <!-- Display user data -->
-    <h1>User Data</h1>
-    {% for item in data %}
-        <p>{{ item }}</p>
-    {% endfor %}
-    <p><a href="/view">Refresh</a></p>
+    <h2>User Data</h2>
+    <table border="1">
+        <tr>
+            <th>Username</th>
+            <th>Date of Birth</th>
+        </tr>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.Username }}</td>
+                <td>{{ item.DOB }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
