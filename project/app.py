@@ -5,14 +5,14 @@ from sqlalchemy import create_engine
 app = Flask(__name__)
 
 # Replace the following placeholders with your RDS details
-RDS_HOST = 'your-rds-host'
-RDS_PORT = 'your-rds-port'
-RDS_DB_NAME = 'your-db-name'
-RDS_USERNAME = 'your-db-username'
-RDS_PASSWORD = 'your-db-password'
+RDS_HOST = 'myrdsinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com'
+RDS_PORT = '3306'
+RDS_DB_NAME = 'MyRDSInstance'
+RDS_USERNAME = 'admin'
+RDS_PASSWORD = 'admin123'
 
 # Create an SQL Alchemy engine for database connection
-db_url = f'mysql://{RDS_USERNAME}:{RDS_PASSWORD}@{RDS_HOST}:{RDS_PORT}/{RDS_DB_NAME}'
+db_url = f'mysql://admin:admin123@myrdsinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com:3306/MyRDSInstance'
 engine = create_engine(db_url)
 
 @app.route('/')
