@@ -1,37 +1,44 @@
-from flask import Flask, render_template, request
-import boto3
-from sqlalchemy import create_engine
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 
-# Replace the following placeholders with your RDS details
-RDS_HOST = 'myrdsinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com'
-RDS_PORT = '3306'
-RDS_DB_NAME = 'MyRDSInstance'
-RDS_USERNAME = 'admin'
-RDS_PASSWORD = 'admin123'
+# Replace 'your_rds_connection_string' with your actual RDS connection string
+# Format: 'mysql://username:password@hostname:port/database'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://your_username:your_password@dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com:3306/your_database_name'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Create an SQL Alchemy engine for database connection
-db_url = f'mysql://admin:admin123@myrdsinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com:3306/MyRDSInstance'
-engine = create_engine(db_url)
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    dob = db.Column(db.Date, nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/save', methods=['POST'])
-def save_data():
+@app.route('/submit', methods=['POST'])
+def submit():
     username = request.form['username']
-    dob = request.form['dob']
+    dob_str = request.form['dob']
 
     try:
-        # Use the SQL Alchemy engine to execute an INSERT query
-        with engine.connect() as connection:
-            connection.execute("INSERT INTO your_table (username, dob) VALUES (%s, %s)", (username, dob))
-        
-        return f'Data saved for {username} with DOB {dob}'
-    except Exception as e:
-        return f'Error saving data: {str(e)}'
+        dob = datetime.strptime(dob_str, '%Y-%m-%d').date()
+    except ValueError:
+        return "Invalid date format. Please use YYYY-MM-DD."
+
+    user = User(username=username, dob=dob)
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)
