@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:admin123@dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com:3306/mysql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-mysql = SQLAlchemy(app)
+db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
