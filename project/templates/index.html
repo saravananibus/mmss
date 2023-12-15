@@ -8,15 +8,16 @@
 <body>
     <h1>User Registration</h1>
     
-    <form action="{{ url_for('submit') }}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required><br>
+<form action="{{ url_for('submit') }}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" name="username" required><br>
 
-        <label for="dob">Date of Birth (YYYY-MM-DD):</label>
-        <input type="text" name="dob" required pattern="\d{4}-\d{2}-\d{2}"><br>
+    <label for="dob">Date of Birth:</label>
+    <input type="date" name="dob" required><br>
 
-        <button type="submit">Submit</button>
-    </form>
+    <button type="submit">Submit</button>
+  </form>
+
 
     <h2>Users</h2>
     <ul>
