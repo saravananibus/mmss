@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Replace these values with your RDS credentials
 db_config = {
-    'host': 'dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com',
+    'host': 'myrdsinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com',
     'user': 'admin',
     'password': 'admin123',
 }
