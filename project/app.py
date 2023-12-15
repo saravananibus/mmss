@@ -1,29 +1,31 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+import mysql.connector
 from datetime import datetime
 
 app = Flask(__name__)
 
-# Replace 'your_rds_connection_string' with your actual RDS connection string
-# Format: 'mysql://username:password@hostname:port/database'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:admin123@dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com:3306/mysql'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Use 'mysqlclient' instead of 'MySQLdb'
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'connect_args': {'charset': 'utf8mb4'},
-    'client_flag': 3306,
+# Replace these values with your RDS credentials
+db_config = {
+    'host': 'dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com',
+    'user': 'admin',
+    'password': 'admin123',
+    'database': 'mysql'
 }
 
-db = SQLAlchemy(app)
+conn = mysql.connector.connect(**db_config)
+cursor = conn.cursor()
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    dob = db.Column(db.Date, nullable=False)
+def create_user_table():
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(80) UNIQUE NOT NULL,
+            dob DATE NOT NULL
+        )
+    """)
+    conn.commit()
 
-    def __repr__(self):
-        return f'<User {self.username}>'
+create_user_table()
 
 @app.route('/')
 def index():
@@ -39,12 +41,11 @@ def submit():
     except ValueError:
         return "Invalid date format. Please use YYYY-MM-DD."
 
-    user = User(username=username, dob=dob)
-    db.session.add(user)
-    db.session.commit()
+    insert_query = "INSERT INTO users (username, dob) VALUES (%s, %s)"
+    cursor.execute(insert_query, (username, dob))
+    conn.commit()
 
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)
