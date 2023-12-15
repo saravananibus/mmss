@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Replace 'your_rds_connection_string' with your actual RDS connection string
 # Format: 'mysql://username:password@hostname:port/database'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://your_username:your_password@dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com:3306/your_database_name'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:admin123@dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com:3306/mysql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
