@@ -9,6 +9,12 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:admin123@dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com:3306/mysql'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Use 'mysqlclient' instead of 'MySQLdb'
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'connect_args': {'charset': 'utf8mb4'},
+    'client_flag': 3306,
+}
+
 db = SQLAlchemy(app)
 
 class User(db.Model):
