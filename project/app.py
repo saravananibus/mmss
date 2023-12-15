@@ -56,7 +56,7 @@ def submit():
     cursor.execute(insert_query, (username, dob))
     conn.commit()
 
-    # Redirect to a new route to display the saved data
+    # Redirect to the 'show_data' route
     return redirect(url_for('show_data'))
 
 @app.route('/show_data')
