@@ -29,7 +29,13 @@ create_user_table()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+     # Fetch existing users from the database
+    select_query = "SELECT username, dob FROM users"
+    cursor.execute(select_query)
+    users = [{'username': username, 'dob': dob.strftime('%Y-%m-%d')} for username, dob in cursor.fetchall()]
+    
+    return render_template('index.html', users=users)
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
