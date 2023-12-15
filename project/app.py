@@ -9,7 +9,7 @@ db_config = {
     'host': 'dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com',
     'user': 'admin',
     'password': 'admin123',
-    'database': 'mysql'
+    'database': 'saran'
 }
 
 conn = mysql.connector.connect(**db_config)
