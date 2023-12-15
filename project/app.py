@@ -9,14 +9,20 @@ db_config = {
     'host': 'dbinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com',
     'user': 'admin',
     'password': 'admin123',
-    'database': 'mydatabase'
 }
 
+# Connect to MySQL server (not to a specific database)
 conn = mysql.connector.connect(**db_config)
 cursor = conn.cursor()
 
+def create_database():
+    cursor.execute("CREATE DATABASE IF NOT EXISTS mydatabase")
+    conn.commit()
+
 def create_user_table():
+    create_database()  # Call the create_database function before creating the table
     cursor.execute("""
+        USE mydatabase;
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
             username VARCHAR(80) UNIQUE NOT NULL,
@@ -29,13 +35,12 @@ create_user_table()
 
 @app.route('/')
 def index():
-     # Fetch existing users from the database
+    # Fetch existing users from the database
     select_query = "SELECT username, dob FROM users"
     cursor.execute(select_query)
     users = [{'username': username, 'dob': dob.strftime('%Y-%m-%d')} for username, dob in cursor.fetchall()]
-    
-    return render_template('index.html', users=users)
 
+    return render_template('index.html', users=users)
 
 @app.route('/submit', methods=['POST'])
 def submit():
