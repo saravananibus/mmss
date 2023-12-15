@@ -56,7 +56,18 @@ def submit():
     cursor.execute(insert_query, (username, dob))
     conn.commit()
 
-    return redirect(url_for('index'))
+    # Redirect to a new route to display the saved data
+    return redirect(url_for('show_data'))
+
+@app.route('/show_data')
+def show_data():
+    # Fetch all users from the database
+    select_query = "SELECT username, dob FROM users"
+    cursor.execute(select_query)
+    users = [{'username': username, 'dob': dob.strftime('%Y-%m-%d')} for username, dob in cursor.fetchall()]
+
+    return render_template('show_data.html', users=users)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
