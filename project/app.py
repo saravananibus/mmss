@@ -7,7 +7,7 @@ app = Flask(__name__)
 DB_HOST = 'database-1.cyf3uod2jso1.ap-south-1.rds.amazonaws.com'
 DB_USER = 'admin'
 DB_PASSWORD = 'admin123'
-DB_NAME = 'mmss_mmss'
+DB_NAME = 'mmssmmss'
 
 def create_database_and_table():
     # Connect to MySQL server
