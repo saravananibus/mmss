@@ -1,0 +1,15 @@
+<!-- view.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View User Data</title>
+</head>
+<body>
+    <!-- Display user data -->
+    <h1>User Data</h1>
+    {% for item in data %}
+        <p>{{ item }}</p>
+    {% endfor %}
+    <p><a href="/view">Refresh</a></p>
+</body>
+</html>
