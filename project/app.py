@@ -1,73 +1,82 @@
-from flask import Flask, render_template, request, redirect, url_for
-import mysql.connector
-from datetime import datetime
+from flask import Flask, render_template, request
+import pymysql
 
 app = Flask(__name__)
 
-# Replace these values with your RDS credentials
-db_config = {
-    'host': 'myrdsinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com',
-    'user': 'admin',
-    'password': 'admin123',
-}
+# Replace these with your database credentials
+DB_HOST = 'database-1.cyf3uod2jso1.ap-south-1.rds.amazonaws.com'
+DB_USER = 'admin'
+DB_PASSWORD = 'admin123'
+DB_NAME = 'mmss_mmss'
 
-# Connect to MySQL server (not to a specific database)
-conn = mysql.connector.connect(**db_config)
-cursor = conn.cursor()
+def create_database_and_table():
+    # Connect to MySQL server
+    connection = pymysql.connect(host=DB_HOST, user=DB_USER, password=DB_PASSWORD)
 
-def create_database():
-    cursor.execute("CREATE DATABASE IF NOT EXISTS mydatabase")
-    conn.commit()
+    try:
+        with connection.cursor() as cursor:
+            # Create the database
+            cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}")
+            cursor.execute(f"USE {DB_NAME}")
 
-def create_user_table():
-    create_database()  # Call the create_database function before creating the table
-    cursor.execute("""
-        USE mydatabase;
-        CREATE TABLE IF NOT EXISTS users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(80) UNIQUE NOT NULL,
-            dob DATE NOT NULL
-        )
-    """)
-    conn.commit()
+            # Create the user_data table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS user_data (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    username VARCHAR(255) NOT NULL,
+                    dob DATE NOT NULL
+                )
+            """)
+        connection.commit()
+        print("Database and table created successfully")
+    except pymysql.err.OperationalError as e:
+        print(f"Error: {e}")
+    finally:
+        connection.close()
 
-create_user_table()
+# Create database and table before running the app
+create_database_and_table()
 
 @app.route('/')
 def index():
-    # Fetch existing users from the database
-    select_query = "SELECT username, dob FROM users"
-    cursor.execute(select_query)
-    users = [{'username': username, 'dob': dob.strftime('%Y-%m-%d')} for username, dob in cursor.fetchall()]
-
-    return render_template('index.html', users=users)
+    return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    username = request.form['username']
-    dob_str = request.form['dob']
+    username = request.form['user_name']
+    dob = request.form['date_of_birth']
+
+    # Connect to the database
+    connection = pymysql.connect(host=DB_HOST, user=DB_USER, password=DB_PASSWORD, db=DB_NAME)
 
     try:
-        dob = datetime.strptime(dob_str, '%Y-%m-%d').date()
-    except ValueError:
-        return "Invalid date format. Please use YYYY-MM-DD."
+        with connection.cursor() as cursor:
+            # Insert data into the database
+            sql = "INSERT INTO user_data (username, dob) VALUES (%s, %s)"
+            cursor.execute(sql, (username, dob))
+        connection.commit()
+        return "Data saved successfully"
+    except Exception as e:
+        return str(e)
+    finally:
+        connection.close()
 
-    insert_query = "INSERT INTO users (username, dob) VALUES (%s, %s)"
-    cursor.execute(insert_query, (username, dob))
-    conn.commit()
+@app.route('/view')
+def view():
+    # Connect to the database
+    connection = pymysql.connect(host=DB_HOST, user=DB_USER, password=DB_PASSWORD, db=DB_NAME)
 
-    # Redirect to the 'show_data' route
-    return redirect(url_for('show_data'))
-
-@app.route('/show_data')
-def show_data():
-    # Fetch all users from the database
-    select_query = "SELECT username, dob FROM users"
-    cursor.execute(select_query)
-    users = [{'username': username, 'dob': dob.strftime('%Y-%m-%d')} for username, dob in cursor.fetchall()]
-
-    return render_template('show_data.html', users=users)
-
+    try:
+        with connection.cursor() as cursor:
+            # Retrieve data from the database
+            sql = "SELECT * FROM user_data"
+            cursor.execute(sql)
+            result = cursor.fetchall()
+        return render_template('view.html', data=result)
+    except Exception as e:
+        return str(e)
+    finally:
+        connection.close()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
