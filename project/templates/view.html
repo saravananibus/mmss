@@ -1,48 +1,26 @@
-<!-- view.html -->
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>User Data View</title>
-    <style>
-        body {
-            background-image: url('/static/background1.jpg'); /* Adjust the path accordingly */
-            background-size: cover;
-        }
-
-        table {
-            width: 80%;
-            margin: 50px auto;
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Data</title>
 </head>
 <body>
-    <h1>User Data View</h1>
-   <center>
-    <table>
+    <h2>View Data</h2>
+    <table border="1">
         <tr>
+            <th>ID</th>
             <th>Username</th>
             <th>Date of Birth</th>
         </tr>
         {% for row in data %}
         <tr>
-            <td>{{ row.username }}</td>
-            <td>{{ row.dob }}</td>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
         </tr>
         {% endfor %}
     </table>
-   </center>    
 </body>
 </html>
+
