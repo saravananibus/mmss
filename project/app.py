@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request
+from termcolor import colored
 import pymysql
 
 app = Flask(__name__)
 
 # Replace these with your database credentials
-DB_HOST = 'database-1.cyf3uod2jso1.ap-south-1.rds.amazonaws.com'
+DB_HOST = 'myrdsinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com'
 DB_USER = 'admin'
 DB_PASSWORD = 'admin123'
-DB_NAME = 'mmssmmss'
+DB_NAME = 'mmss_mmss2'
 
 def create_database_and_table():
     # Connect to MySQL server
@@ -55,9 +56,13 @@ def submit():
             sql = "INSERT INTO user_data (username, dob) VALUES (%s, %s)"
             cursor.execute(sql, (username, dob))
         connection.commit()
-        return "Data saved successfully"
+        success_message = "."
+        return render_template('message.html', message=success_message)
     except Exception as e:
-        return str(e)
+         error_message = "\033[1;31mError: {}\033[0m".format(str(e))
+         centered_error_message = center_message(error_message)
+         print(centered_error_message)
+    
     finally:
         connection.close()
 
@@ -69,9 +74,9 @@ def view():
     try:
         with connection.cursor() as cursor:
             # Retrieve data from the database
-            sql = "SELECT * FROM user_data"
-            cursor.execute(sql)
-            result = cursor.fetchall()
+             sql = "SELECT username, dob FROM user_data"
+             cursor.execute(sql)
+             result = cursor.fetchall()
         return render_template('view.html', data=result)
     except Exception as e:
         return str(e)
@@ -79,4 +84,4 @@ def view():
         connection.close()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
