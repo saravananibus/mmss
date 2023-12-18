@@ -74,7 +74,7 @@ def view():
     try:
         with connection.cursor() as cursor:
             # Retrieve data from the database
-             sql = "SELECT username, dob FROM user_data"
+             sql = "SELECT * FROM user_data"
              cursor.execute(sql)
              result = cursor.fetchall()
         return render_template('view.html', data=result)
