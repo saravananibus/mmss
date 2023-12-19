@@ -56,7 +56,7 @@ def submit():
             sql = "INSERT INTO user_data (username, dob) VALUES (%s, %s)"
             cursor.execute(sql, (username, dob))
         connection.commit()
-        success_message = "."
+        success_message = "DATA SAVED SUCCESSFULLY"
         return render_template('message.html', message=success_message)
     except Exception as e:
          error_message = "\033[1;31mError: {}\033[0m".format(str(e))
