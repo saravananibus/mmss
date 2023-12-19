@@ -22,7 +22,7 @@ def create_database_and_table():
 
             # Create the user_data table
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS user_data (
+                CREATE TABLE IF NOT EXISTS user_data1 (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     username VARCHAR(255) NOT NULL,
                     dob DATE NOT NULL
@@ -53,7 +53,7 @@ def submit():
     try:
         with connection.cursor() as cursor:
             # Insert data into the database
-            sql = "INSERT INTO user_data (username, dob) VALUES (%s, %s)"
+            sql = "INSERT INTO user_data1 (username, dob) VALUES (%s, %s)"
             cursor.execute(sql, (username, dob))
         connection.commit()
         success_message = "DATA SAVED SUCCESSFULLY"
@@ -74,7 +74,7 @@ def view():
     try:
         with connection.cursor() as cursor:
             # Retrieve data from the database
-             sql = "SELECT * FROM user_data"
+             sql = "SELECT * FROM user_data1"
              cursor.execute(sql)
              result = cursor.fetchall()
         return render_template('view.html', data=result)
