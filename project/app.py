@@ -5,7 +5,7 @@ import pymysql
 app = Flask(__name__)
 
 # Replace these with your database credentials
-DB_HOST = 'myrdsinstance-1.cyf3uod2jso1.ap-south-1.rds.amazonaws.com'
+DB_HOST = 'myrdsinstance.cyf3uod2jso1.ap-south-1.rds.amazonaws.com'
 DB_USER = 'admin'
 DB_PASSWORD = 'admin123'
 DB_NAME = 'mmss_mmss21'
@@ -84,4 +84,4 @@ def view():
         connection.close()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3306, debug=True)
+    app.run(host='0.0.0.0', port=9090, debug=True)
