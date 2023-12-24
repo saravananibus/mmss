@@ -1,0 +1,26 @@
+name: Build and Push to ECR
+
+on:
+  push:
+    branches:
+      - mmss  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      with:
+        registry: <418070443380>.dkr.ecr.<ap-south-1>.amazonaws.com
+        aws-region: <ap-south-1>
+
+    - name: Build and Push to ECR
+      run: |
+        docker build -t <418070443380>.dkr.ecr.<ap-south-1>.amazonaws.com/<public.ecr.aws/j5r0w1p1/saran>:latest .
+        docker push <418070443380>.dkr.ecr.<YOUR_REGION>.amazonaws.com/<public.ecr.aws/j5r0w1p1/saran>:latest
