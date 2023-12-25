@@ -1,0 +1,31 @@
+name: Deploy to ECS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to AWS ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t your-image-name .
+          docker tag your-image-name:latest ${{ secrets.418070443380 }}.dkr.ecr.${{ secrets.ap-south-1 }}.amazonaws.com/your-image-name:latest
+          docker push ${{ secrets.418070443380 }}.dkr.ecr.${{ secrets.ap-south-1 }}.amazonaws.com/your-image-name:latest
+
+      - name: Deploy to ECS
+        run: |
+          aws ecs update-service --cluster saravanan --service mmss --task-definition sarantask
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AKIAWCVXQWV2G6UWSHAO }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.ZfWjg8x0tci5pcHngmD+Mn8+wkwfeEQDZaHu813w }}
+          AWS_DEFAULT_REGION: ${{ secrets.ap-south-1 }}
