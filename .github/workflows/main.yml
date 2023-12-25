@@ -18,14 +18,15 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
+          # Replace 'your-image-name' with the name you want for your Docker image
           docker build -t your-image-name .
-          docker tag your-image-name:latest ${{ secrets.418070443380 }}.dkr.ecr.${{ secrets.ap-south-1 }}.amazonaws.com/your-image-name:latest
-          docker push ${{ secrets.418070443380 }}.dkr.ecr.${{ secrets.ap-south-1 }}.amazonaws.com/your-image-name:latest
+          docker tag your-image-name:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/your-image-name:latest
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/your-image-name:latest
 
       - name: Deploy to ECS
         run: |
           aws ecs update-service --cluster saravanan --service mmss --task-definition sarantask
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AKIAWCVXQWV2G6UWSHAO }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ZfWjg8x0tci5pcHngmD+Mn8+wkwfeEQDZaHu813w }}
-          AWS_DEFAULT_REGION: ${{ secrets.ap-south-1 }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
