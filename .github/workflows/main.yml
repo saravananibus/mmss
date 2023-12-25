@@ -1,32 +1,25 @@
-name: Deploy to ECS
-
 on:
   push:
     branches:
       - main
 
+name: Project
+
 jobs:
-  deploy:
+  check:
+    name: Package distribution file
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Login to AWS ECR
-        uses: aws-actions/123456789012.dkr.ecr.aws-region-1.amazonaws.com
-      
-      - name: Build and Push Docker Image
-        run: |
-          # Replace 'your-image-name' with the name you want for your Docker image
-          docker build -t your-image-name .
-          docker tag your-image-name:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_DEFAULT_REGION }}.amazonaws.com/your-image-name:latest
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/your-image-name:latest
-
-      - name: Deploy to ECS
-        run: |
-          aws ecs update-service --cluster saravanan --service mmss --task-definition sarantask
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ref: main
+    - name: Package
+      run: |
+        npm ci
+        npm test
+        npm run package
+    - name: Commit
+      run: |
+        git config --global user.name "GitHub Actions"
+        git add .
