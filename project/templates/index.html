@@ -1,0 +1,62 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data Form</title>
+    <style>
+        body {
+            /* Set background image and adjust properties */
+            background-image: url('C:/Users/USER/Downloads/static/saran1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* Optionally, you can set a background color as a fallback */
+            background-color: #f0f0f0;
+        }
+
+        /* Style for the form */
+        form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Additional styles as needed */
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- User data input form -->
+    <h1>User Data Form</h1>
+    <center>
+        <form action="/submit" method="post">
+        <b><label for="user_name">User Name:</label></b>
+        <input type="text" name="user_name" required><br>
+        <b><label for="date_of_birth">Date of Birth:</label></b>
+        <input type="date" name="date_of_birth" required><br>
+        <b><input type="submit" value="Submit"></b>
+    </center>
+      </form>
+</body>
+</html>
